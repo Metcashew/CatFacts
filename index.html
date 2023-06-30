@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CataFacts</title>
+</head>
+<body>
+    <p id="cat-fact">Click the button below to view a random cat fact!</p>
+    <script>
+        var factPlaceholder = document.getElementById("cat-fact");
+        var showFact = document.getElementById("show-fact");
+
+        function fetchCatFact() {
+            // Make an HTTP GET request to the cat fact API
+            fetch("https://cat-fact.herokuapp.com/facts/random?animal_type=cat")
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the fact from the response data
+                    var catFact = data.text;
+                    factPlaceholder.textContent = catFact;
+                })
+                .catch(error => {
+                    console.error("Error fetching cat fact:", error);
+                });
+        }
+
+        // Function to show a random cat fact
+        function showRandomCatFact() {
+            fetchCatFact();
+        }
+
+        // Call the showRandomCatFact() function when the page loads
+        window.addEventListener('load', showRandomCatFact);
+
+        // Event listener for the "Show a new fact" button
+        showFact.addEventListener('click', showRandomCatFact);
+    </script>
+</body>
+</html>
